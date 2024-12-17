@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://ed8oybvj24yl"]
+
+[ext_resource type="MeshLibrary" uid="uid://b14y56dyy8y4r" path="res://MeshLibraries/SpaceLibrary.tres" id="1_8plsj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e34pd"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_c6dyh"]
+sky_material = SubResource("ProceduralSkyMaterial_e34pd")
+
+[sub_resource type="Environment" id="Environment_3n5hv"]
+background_mode = 2
+sky = SubResource("Sky_c6dyh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aad5i"]
+albedo_color = Color(0.266667, 0.266667, 0.266667, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_t0nvv"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -21.1798, 0, 5.81204, -1.3541, 0, 0.81246, 1.3541, 0, -0.81246, 13.6313, 0, 6.10851, 0.926308, 0, 0.520233, -0.926308, 0, -0.520233, 14.1494, 0, -2.14516, 0.637943, 0, 1.22627, -0.637943, 0, -1.22627, -9.92405, 0, -1.99348, 0, 0, 0, 0, 0, 0, -10.0204, 0, -6.77051),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="BaseLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3n5hv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+size = Vector3(100, 2, 100)
+material = SubResource("StandardMaterial3D_aad5i")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999999, 0.00174533, -5.20148e-11, -0.000737608, 0.422618, 0.906308, 0.0015818, -0.906306, 0.422618, 0.0269985, 14.4807, 9.55801)
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_8plsj")
+cell_size = Vector3(4, 4, 4)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(4, 65534, 0, 3, 65534, 0, 2, 65534, 0, 1, 65534, 0, 0, 65534, 0, 65535, 65534, 0, 65534, 65534, 0, 4, 2, 0, 4, 1, 0, 4, 0, 0, 4, 65535, 0, 65531, 2, 0, 65532, 2, 0, 65533, 2, 0, 65534, 2, 0, 65535, 2, 0, 0, 2, 0, 1, 2, 0, 2, 2, 0, 3, 2, 0, 65531, 0, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 65532, 65535, 0, 65531, 65535, 0, 65531, 65534, 0, 65532, 65534, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_t0nvv")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Path3D"]
+mode = 2
+path_node = NodePath("")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
