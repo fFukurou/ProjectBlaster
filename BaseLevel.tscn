@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ed8oybvj24yl"]
+[gd_scene load_steps=10 format=3 uid="uid://ed8oybvj24yl"]
 
 [ext_resource type="MeshLibrary" uid="uid://b14y56dyy8y4r" path="res://MeshLibraries/SpaceLibrary.tres" id="1_8plsj"]
+[ext_resource type="PackedScene" uid="uid://cgp2sb7587mmy" path="res://RayPickerCamera/ray_picker_camera.tscn" id="1_i3t6g"]
 [ext_resource type="PackedScene" uid="uid://xgqiqel5mbqu" path="res://Enemy/enemy.tscn" id="2_653x6"]
 [ext_resource type="PackedScene" uid="uid://c0o5gvdayjtv8" path="res://Base/base.tscn" id="3_dv1gu"]
 
@@ -41,8 +42,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 size = Vector3(100, 2, 100)
 material = SubResource("StandardMaterial3D_aad5i")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.999999, 0.00174533, -5.20148e-11, -0.000737608, 0.422618, 0.906308, 0.0015818, -0.906306, 0.422618, 0.0269985, 14.4807, 9.55801)
+[node name="RayPickerCamera" parent="." node_paths=PackedStringArray("gridmap") instance=ExtResource("1_i3t6g")]
+gridmap = NodePath("../GridMap")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_8plsj")
@@ -99,7 +100,7 @@ path_joined = false
 transform = Transform3D(-0.00851625, 0, -0.999963, 0, 1, 0, 0.999963, 0, -0.00851625, -21.1798, 0, 5.81204)
 
 [node name="Enemy2" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0290395, 0, -0.999577, 0, 1, 0, 0.999577, 0, -0.0290395, -16.1823, 0, 5.96533)
+transform = Transform3D(-0.0290395, 0, -0.999576, 0, 1, 0, 0.999576, 0, -0.0290395, -16.1823, 0, 5.96533)
 progress = 5.0
 
 [node name="Enemy3" parent="Path3D" instance=ExtResource("2_653x6")]
@@ -111,7 +112,7 @@ transform = Transform3D(-0.0222944, 0, -0.999751, 0, 1, 0, 0.999751, 0, -0.02229
 progress = 15.0
 
 [node name="Enemy5" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0172068, 0, -0.999851, 0, 1, 0, 0.999851, 0, -0.0172068, -1.18648, 0, 6.32367)
+transform = Transform3D(-0.0172068, 0, -0.99985, 0, 1, 0, 0.99985, 0, -0.0172068, -1.18648, 0, 6.32367)
 progress = 20.0
 
 [node name="Base" parent="." instance=ExtResource("3_dv1gu")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0axkbuwjsrkx"]
+[gd_scene load_steps=9 format=3 uid="uid://d0axkbuwjsrkx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_am3ps"]
 albedo_color = Color(0.728822, 0.728822, 0.728822, 1)
@@ -20,6 +20,13 @@ size = Vector3(4, 0.1, 4)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_bb1yn"]
 data = PackedVector3Array(-2, 0.05, 2, 2, 0.05, 2, -2, -0.05, 2, 2, 0.05, 2, 2, -0.05, 2, -2, -0.05, 2, 2, 0.05, -2, -2, 0.05, -2, 2, -0.05, -2, -2, 0.05, -2, -2, -0.05, -2, 2, -0.05, -2, 2, 0.05, 2, 2, 0.05, -2, 2, -0.05, 2, 2, 0.05, -2, 2, -0.05, -2, 2, -0.05, 2, -2, 0.05, -2, -2, 0.05, 2, -2, -0.05, -2, -2, 0.05, 2, -2, -0.05, 2, -2, -0.05, -2, 2, 0.05, 2, -2, 0.05, 2, 2, 0.05, -2, -2, 0.05, 2, -2, 0.05, -2, 2, 0.05, -2, -2, -0.05, 2, 2, -0.05, 2, -2, -0.05, -2, 2, -0.05, 2, 2, -0.05, -2, -2, -0.05, -2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ly7o8"]
+albedo_color = Color(0.58, 0.331277, 0.0986, 0.733333)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7hb22"]
+material = SubResource("StandardMaterial3D_ly7o8")
+size = Vector3(4, 0.1, 4)
+
 [node name="SpaceLibrary" type="Node3D"]
 
 [node name="FreeSpace" type="MeshInstance3D" parent="."]
@@ -36,4 +43,12 @@ mesh = SubResource("BoxMesh_15kou")
 [node name="StaticBody3D" type="StaticBody3D" parent="TurretBase"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TurretBase/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_bb1yn")
+
+[node name="Hover" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_7hb22")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Hover"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hover/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_bb1yn")
