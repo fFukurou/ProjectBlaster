@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [global_group]
 
 base=""
+enemy_area=""
+bank=""
 
 [input]
 

@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://ed8oybvj24yl"]
+[gd_scene load_steps=15 format=3 uid="uid://ed8oybvj24yl"]
 
 [ext_resource type="MeshLibrary" uid="uid://b14y56dyy8y4r" path="res://MeshLibraries/SpaceLibrary.tres" id="1_8plsj"]
 [ext_resource type="PackedScene" uid="uid://cgp2sb7587mmy" path="res://RayPickerCamera/ray_picker_camera.tscn" id="1_i3t6g"]
 [ext_resource type="PackedScene" uid="uid://xgqiqel5mbqu" path="res://Enemy/enemy.tscn" id="2_653x6"]
+[ext_resource type="Script" path="res://enemy_path.gd" id="3_0x3ch"]
 [ext_resource type="PackedScene" uid="uid://c0o5gvdayjtv8" path="res://Base/base.tscn" id="3_dv1gu"]
 [ext_resource type="Script" path="res://turret_manager.gd" id="5_irb5l"]
 [ext_resource type="PackedScene" uid="uid://cdg8ti7wt76or" path="res://Turret/turret.tscn" id="6_xcrnx"]
+[ext_resource type="Script" path="res://bank.gd" id="8_ktanm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e34pd"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,6 +31,11 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_6q1wa"]
+font_size = 64
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
 
 [node name="BaseLevel" type="Node3D"]
 
@@ -57,10 +64,12 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="Path3D" type="Path3D" parent="."]
+[node name="EnemyPath" type="Path3D" parent="."]
 curve = SubResource("Curve3D_t0nvv")
+script = ExtResource("3_0x3ch")
+enemy_scene = ExtResource("2_653x6")
 
-[node name="Road" type="CSGPolygon3D" parent="Path3D"]
+[node name="Road" type="CSGPolygon3D" parent="EnemyPath"]
 polygon = PackedVector2Array(-1, 0, -1, 0.1, 1, 0.1, 1, 0)
 mode = 2
 path_node = NodePath("..")
@@ -73,7 +82,7 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 
-[node name="RightEdge" type="CSGPolygon3D" parent="Path3D"]
+[node name="RightEdge" type="CSGPolygon3D" parent="EnemyPath"]
 polygon = PackedVector2Array(0.9, 0, 0.9, 0.15, 1.1, 0.15, 1.1, 0)
 mode = 2
 path_node = NodePath("..")
@@ -86,7 +95,7 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 
-[node name="LeftEdge" type="CSGPolygon3D" parent="Path3D"]
+[node name="LeftEdge" type="CSGPolygon3D" parent="EnemyPath"]
 polygon = PackedVector2Array(-1.1, 0, -1.1, 0.15, -0.9, 0.15, -0.9, 0)
 mode = 2
 path_node = NodePath("..")
@@ -99,28 +108,35 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
 
-[node name="Enemy" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.00851625, 0, -0.999963, 0, 1, 0, 0.999963, 0, -0.00851625, -21.1798, 0, 5.81204)
-
-[node name="Enemy2" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0290394, 0, -0.999576, 0, 1, 0, 0.999576, 0, -0.0290394, -16.1823, 0, 5.96533)
-progress = 5.0
-
-[node name="Enemy3" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0259795, 0, -0.999662, 0, 1, 0, 0.999662, 0, -0.0259795, -11.1842, 0, 6.10301)
-progress = 10.0
-
-[node name="Enemy4" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0222944, 0, -0.999751, 0, 1, 0, 0.999751, 0, -0.0222944, -6.18556, 0, 6.22409)
-progress = 15.0
-
-[node name="Enemy5" parent="Path3D" instance=ExtResource("2_653x6")]
-transform = Transform3D(-0.0172068, 0, -0.99985, 0, 1, 0, 0.99985, 0, -0.0172068, -1.18648, 0, 6.32367)
-progress = 20.0
+[node name="SpawnTimer" type="Timer" parent="EnemyPath"]
+wait_time = 2.0
+autostart = true
 
 [node name="Base" parent="." instance=ExtResource("3_dv1gu")]
 
 [node name="TurretManager" type="Node3D" parent="." node_paths=PackedStringArray("enemy_path")]
 script = ExtResource("5_irb5l")
 turret = ExtResource("6_xcrnx")
-enemy_path = NodePath("../Path3D")
+enemy_path = NodePath("../EnemyPath")
+
+[node name="Bank" type="MarginContainer" parent="." groups=["bank"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("8_ktanm")
+
+[node name="Label" type="Label" parent="Bank"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_6q1wa")
+
+[connection signal="timeout" from="EnemyPath/SpawnTimer" to="EnemyPath" method="spawn_enemy"]

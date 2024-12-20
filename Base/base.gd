@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var MAX_HEALTH: int = 5
+@export var MAX_HEALTH: int = 6
 
 var RED: Color = Color.DARK_RED
 var WHITE: Color = Color.WHITE_SMOKE
