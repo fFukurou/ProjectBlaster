@@ -9,7 +9,6 @@ var blended_color
 var current_health: int:
 	set(health_in):
 		current_health = health_in
-		print("health was changed")
 		label_3d.text = str(current_health) + "/" + str(MAX_HEALTH)
 		label_3d.modulate = RED.lerp(WHITE, float(current_health) / float(MAX_HEALTH))
 		if current_health < 1:
@@ -22,9 +21,9 @@ var current_health: int:
 
 func _ready() -> void:
 	current_health = MAX_HEALTH
+	Engine.time_scale = 15
 	
 
 func take_damage() -> void:
-	print("damage dealt to base! ")
 	self.current_health -= 1
 	

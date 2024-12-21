@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ed8oybvj24yl"]
+[gd_scene load_steps=18 format=3 uid="uid://ed8oybvj24yl"]
 
 [ext_resource type="MeshLibrary" uid="uid://b14y56dyy8y4r" path="res://MeshLibraries/SpaceLibrary.tres" id="1_8plsj"]
 [ext_resource type="PackedScene" uid="uid://cgp2sb7587mmy" path="res://RayPickerCamera/ray_picker_camera.tscn" id="1_i3t6g"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://turret_manager.gd" id="5_irb5l"]
 [ext_resource type="PackedScene" uid="uid://cdg8ti7wt76or" path="res://Turret/turret.tscn" id="6_xcrnx"]
 [ext_resource type="Script" path="res://bank.gd" id="8_ktanm"]
+[ext_resource type="PackedScene" uid="uid://uffroudf7ma5" path="res://DifficultyManager/difficulty_manager.tscn" id="9_rb7sr"]
+[ext_resource type="PackedScene" uid="uid://baloflag4uri4" path="res://UserInterface/victory_layer.tscn" id="10_yw3ws"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e34pd"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -37,6 +39,12 @@ font_size = 64
 outline_size = 16
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Curve" id="Curve_d4on2"]
+min_value = 10.0
+max_value = 150.0
+_data = [Vector2(0, 10), 0.0, 140.0, 0, 1, Vector2(1, 150), 140.0, 0.0, 1, 0]
+point_count = 2
+
 [node name="BaseLevel" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -64,10 +72,12 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="EnemyPath" type="Path3D" parent="."]
+[node name="EnemyPath" type="Path3D" parent="." node_paths=PackedStringArray("difficulty_manager", "victory_layer")]
 curve = SubResource("Curve3D_t0nvv")
 script = ExtResource("3_0x3ch")
 enemy_scene = ExtResource("2_653x6")
+difficulty_manager = NodePath("../DifficultyManager")
+victory_layer = NodePath("../VictoryLayer")
 
 [node name="Road" type="CSGPolygon3D" parent="EnemyPath"]
 polygon = PackedVector2Array(-1, 0, -1, 0.1, 1, 0.1, 1, 0)
@@ -77,7 +87,7 @@ path_interval_type = 0
 path_interval = 0.5
 path_simplify_angle = 0.0
 path_rotation = 2
-path_local = false
+path_local = true
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
@@ -90,7 +100,7 @@ path_interval_type = 0
 path_interval = 0.5
 path_simplify_angle = 0.0
 path_rotation = 2
-path_local = false
+path_local = true
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
@@ -103,7 +113,7 @@ path_interval_type = 0
 path_interval = 0.5
 path_simplify_angle = 0.0
 path_rotation = 2
-path_local = false
+path_local = true
 path_continuous_u = true
 path_u_distance = 1.0
 path_joined = false
@@ -113,6 +123,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="Base" parent="." instance=ExtResource("3_dv1gu")]
+MAX_HEALTH = 50
 
 [node name="TurretManager" type="Node3D" parent="." node_paths=PackedStringArray("enemy_path")]
 script = ExtResource("5_irb5l")
@@ -139,4 +150,11 @@ size_flags_vertical = 8
 text = "PLACEHOLDER"
 label_settings = SubResource("LabelSettings_6q1wa")
 
+[node name="DifficultyManager" parent="." instance=ExtResource("9_rb7sr")]
+enemy_health_curve = SubResource("Curve_d4on2")
+
+[node name="VictoryLayer" parent="." instance=ExtResource("10_yw3ws")]
+visible = false
+
 [connection signal="timeout" from="EnemyPath/SpawnTimer" to="EnemyPath" method="spawn_enemy"]
+[connection signal="stop_spawning_enemies" from="DifficultyManager" to="EnemyPath" method="_on_difficulty_manager_stop_spawning_enemies"]

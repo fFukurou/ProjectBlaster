@@ -21,6 +21,7 @@ var current_health: int:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	current_health = max_health
+	#Engine.time_scale = 5
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,6 +30,7 @@ func _process(delta: float) -> void:
 	if self.progress_ratio == 1.0:
 		base.take_damage()
 		set_process(false)
+		queue_free()
 		
 	if current_health <= 0:
 		self.queue_free()
