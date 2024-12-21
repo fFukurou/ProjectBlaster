@@ -1,7 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0axkbuwjsrkx"]
+[gd_scene load_steps=11 format=3 uid="uid://d0axkbuwjsrkx"]
+
+[ext_resource type="PackedScene" uid="uid://cn8p8nsjqciby" path="res://Assets/Tree.glb" id="1_cmpld"]
+[ext_resource type="PackedScene" uid="uid://bygwy1qj14iye" path="res://Assets/Rocks.glb" id="2_h2yhf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_am3ps"]
-albedo_color = Color(0.728822, 0.728822, 0.728822, 1)
+blend_mode = 1
+albedo_color = Color(0.266575, 0.266575, 0.266575, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_rexh3"]
 material = SubResource("StandardMaterial3D_am3ps")
@@ -52,3 +56,7 @@ mesh = SubResource("BoxMesh_7hb22")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hover/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_bb1yn")
+
+[node name="Tree" parent="." instance=ExtResource("1_cmpld")]
+
+[node name="Rocks" parent="." instance=ExtResource("2_h2yhf")]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7h6k1hulrmoq"]
+
+[ext_resource type="AudioStream" uid="uid://di7xhega43av0" path="res://Assets/Slap 1.mp3" id="1_m0fph"]
+
+[node name="slap1" type="AudioStreamPlayer"]
+stream = ExtResource("1_m0fph")
+autoplay = true
+bus = &"SFX"

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://5eqr5tjnmswl"]
+
+[ext_resource type="AudioStream" uid="uid://d2aj5m4ci3y2n" path="res://Assets/barbarian_music.mp3" id="1_n3sd4"]
+
+[node name="Music" type="AudioStreamPlayer"]
+stream = ExtResource("1_n3sd4")
+volume_db = -18.775
+autoplay = true

@@ -10,6 +10,7 @@ signal stop_spawning_enemies
 
 func _ready() -> void:
 	timer.start(game_length)
+	#Engine.time_scale = 5
 
 
 func game_progress_ratio() -> float:
